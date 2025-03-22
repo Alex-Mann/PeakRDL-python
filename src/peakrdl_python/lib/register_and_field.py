@@ -774,7 +774,6 @@ class RegReadWrite(RegReadOnly, RegWriteOnly, ABC):
 
         return super().read()
 
-
     def write_fields(self, **kwargs) -> None:  # type: ignore[no-untyped-def]
         """
         Do a read-modify-write to the register, updating any field included in
