@@ -774,6 +774,7 @@ class RegReadWrite(RegReadOnly, RegWriteOnly, ABC):
 
         return super().read()
 
+
     def write_fields(self, **kwargs) -> None:  # type: ignore[no-untyped-def]
         """
         Do a read-modify-write to the register, updating any field included in
@@ -784,10 +785,10 @@ class RegReadWrite(RegReadOnly, RegWriteOnly, ABC):
 
         with self.single_read_modify_write() as reg:
             for field_name, field_value in kwargs.items():
-                if field_name not in reg.systemrdl_python_child_name_map.values():
+                if field_name not in reg.systemrdl_python_child_name_map.keys():
                     raise ValueError(f'{field_name} is not a member of the register')
 
-                field = getattr(reg, field_name)
+                field = getattr(reg, reg.systemrdl_python_child_name_map[field_name])
                 field.write(field_value)
 
     def read_fields(self) -> dict['str', Union[bool, Enum, int]]:
